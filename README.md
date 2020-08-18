@@ -1,5 +1,5 @@
 # Plantorio
-A simple plant-growing homage to Factorio.
+A simple plant-growing homage to [Factorio](https://factorio.com/).
 
 # Core Concept
 Seeking a better future, you bought a greenhousing asteroid near the orbit of Jupiter, critical to feeding the outer system. When you arrived, however, you found little equipment and all the seeds mis-labeled. At least the shipping drones still visit! Time to literally grow a fortune.
