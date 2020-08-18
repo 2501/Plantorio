@@ -1,6 +1,27 @@
 import React from 'react';
 import './App.css';
 
+class Plant extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: "Amaranth",
+      status: "Healthy",
+      waterPerDay: 1,
+      daysToGrow: 2,
+    }
+  }
+
+  render() {
+    return (
+      <td className="game-plant">
+        <p>{this.state.name}</p>
+        <p>Status: {this.state.status}</p>
+      </td>
+    );
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -13,6 +34,7 @@ class App extends React.Component {
     }
   }
 
+  // <td key={cell}> cell! </td>
   render() {
     return (
       <div className="App">
@@ -31,7 +53,7 @@ class App extends React.Component {
           <div className="game-world-grid">
             <table>
               {this.state.worldGrid.map(row => <tr key={row}> {
-                row.map(cell => <td key={cell}> cell! </td>)
+                row.map(cell => <Plant/>)
               } </tr>)}
             </table>
           </div>
