@@ -4,6 +4,9 @@ A simple plant-growing homage to [Factorio](https://factorio.com/).
 # Core Concept
 Seeking a better future, you bought a greenhousing asteroid near the orbit of Jupiter, critical to feeding the outer system. When you arrived, however, you found little equipment and all the seeds mis-labeled. At least the shipping drones still visit! Time to literally grow a fortune.
 
+# Running the Game
+`npm start` from the repo root.
+
 # Features
 - Grow plants manually at first, such as water each day and harvesting by hand
 - As you sell plants, earn money to purchase new machines, seeds, and upgrades
