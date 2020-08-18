@@ -6,8 +6,14 @@ class Plant extends React.Component {
     super(props)
     this.state = {
       name: "Amaranth",
-      status: "Healthy",
-      waterPerDay: 1,
+      status: {
+        description: "Healthy",
+        age: 0,
+        waterToday: 1,
+      },
+      dailyNeeds: {
+        water: 1,
+      },
       daysToGrow: 2,
     }
   }
@@ -16,7 +22,8 @@ class Plant extends React.Component {
     return (
       <td className="game-plant">
         <p>{this.state.name}</p>
-        <p>Status: {this.state.status}</p>
+        <p>Status: {this.state.status.description}</p>
+        <button className="game-btn-waterPlant">Water 🚰</button>
       </td>
     );
   }
@@ -47,6 +54,7 @@ class App extends React.Component {
           </div>
           <br/>
           <div className="game-shop">
+            <p>Funds: $ {this.state.player.money}</p>
             TODO (Where you'll buy new seeds, machines, and greenhouse expansions)
           </div>
           <br/>
@@ -59,7 +67,8 @@ class App extends React.Component {
           </div>
           <br/>
           <div className="game-footer">
-            TODO (Advance day button)
+            <p>Day: {this.state.worldTick + 1}</p>
+            <button className="game-btn-nextDay">Next Day</button>
           </div>
         </div>
       </div>
