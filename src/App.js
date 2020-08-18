@@ -5,7 +5,11 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      worldGrid: []
+      worldGrid: Array(2).fill(0).map(row => new Array(3).fill(null)),
+      worldTick: 0,
+      player: {
+        money: 100,
+      },
     }
   }
 
@@ -25,7 +29,15 @@ class App extends React.Component {
           </div>
           <br/>
           <div className="game-world-grid">
-            TODO (The game itself!)
+            <table>
+              {this.state.worldGrid.map(row => <tr key={row}> {
+                row.map(cell => <td key={cell}> cell! </td>)
+              } </tr>)}
+            </table>
+          </div>
+          <br/>
+          <div className="game-footer">
+            TODO (Advance day button)
           </div>
         </div>
       </div>

@@ -25,3 +25,13 @@
 .App-link {
   color: #61dafb;
 }
+
+table, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+td {
+  width: 200px;
+  height: 200px;
+}
