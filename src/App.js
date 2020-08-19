@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 class Plant extends React.Component {
+  // <p>DEBUG: {this.props.rowIndex},{this.props.colIndex}</p>
   render() {
     return (
       <td className="game-plant">
@@ -18,7 +19,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      worldGrid: Array(2).fill(0).map(row => new Array(3).fill({
+      worldGrid: Array(2).fill(0).map(row => new Array(3).fill(0).map(cell => ({
         name: "Amaranth",
         status: {
           description: "Healthy",
@@ -29,7 +30,7 @@ class App extends React.Component {
           water: 1,
         },
         daysToGrow: 2,
-      })),
+      }))),
       worldTick: 0,
       player: {
         money: 100,
@@ -66,8 +67,13 @@ class App extends React.Component {
           <br/>
           <div className="game-world-grid">
             <table>
-              {this.state.worldGrid.map((row, rowIndex) => <tr key={row}> {
-                row.map((cell, colIndex) => <Plant {...cell} onClick={() => this.waterPlant(rowIndex, colIndex, cell)}/>)
+              {this.state.worldGrid.map((row, rowIndex) => <tr key={rowIndex}> {
+                row.map((cell, colIndex) => <Plant {...cell}
+                  onClick={() => this.waterPlant(rowIndex, colIndex, cell)}
+                  key={colIndex}
+                  rowIndex={rowIndex}
+                  colIndex={colIndex}
+                />)
               } </tr>)}
             </table>
           </div>
