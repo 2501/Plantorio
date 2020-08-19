@@ -8,7 +8,7 @@ class Plant extends React.Component {
       <td className="game-plant">
         <p>{this.props.name}</p>
         <p>Needs: {this.props.resources.water} / {this.props.needs.water} 🚰</p>
-        <p>Status: {this.props.status.description}</p>
+        <p>Status: {this.props.description}</p>
         <button className="game-btn-waterPlant" onClick={this.props.onClick}>Water 🚰</button>
       </td>
     );
@@ -21,18 +21,20 @@ class App extends React.Component {
     this.state = {
       worldGrid: Array(2).fill(0).map(row => new Array(3).fill(0).map(cell => ({
         name: "Amaranth",
+        description: "Healthy",
         status: {
           age: 0,
-          description: "Healthy",
+          condition: "",
+          hasGrown: false,
           hasWilted: false,
+          hasRot: false,
         },
-        daysToGrow: 2,
+        daysToGrow: 1,
         // Needs are per day
         needs: {
           water: 1,
         },
         resources: {
-          age: 0,
           water: 0,
         },
       }))),
@@ -61,14 +63,32 @@ class App extends React.Component {
     newGrid.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         Object.entries(cell.resources).forEach((resource, i) => {
-          if(resource[0] === "water") {
+          if(resource[0] === "water" && !cell.status.hasRot) {
             if (resource[1] !== cell.needs.water) {
-              cell.status.description = "Wilted";
-              cell.status.hasWilted = true;
+              if (cell.status.hasWilted) {
+                cell.description = "Rotten";
+                cell.status.hasRot = true;
+                cell.status.hasWilted = false;
+              } else {
+                cell.description = "Wilted";
+                cell.status.hasWilted = true;
+              }
+            } else {
+              cell.description = "Healthy";
             }
-            cell.resources.water = 0;
           }
         });
+
+        if((cell.status.age === cell.daysToGrow) && !cell.status.hasRot) {
+          cell.description = "Grown";
+          cell.status.hasGrown = true;
+          cell.status.hasWilted = false;
+        }
+
+        Object.entries(cell.resources).forEach((resource, i) => {
+          cell.resources[resource[0]] = 0;
+        });
+        cell.status.age = cell.status.age + 1;
       });
     });
 
