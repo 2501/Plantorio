@@ -22,11 +22,13 @@ class App extends React.Component {
       worldGrid: Array(2).fill(0).map(row => new Array(3).fill(0).map(cell => ({
         name: "Amaranth",
         status: {
+          age: 0,
           description: "Healthy",
+          hasWilted: false,
         },
-        // Age required is overall; all others are per day
+        daysToGrow: 2,
+        // Needs are per day
         needs: {
-          age: 2,
           water: 1,
         },
         resources: {
@@ -58,12 +60,13 @@ class App extends React.Component {
 
     newGrid.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
-        Object.entries(cell.needs).forEach((need) => {
-          if (need[0] === "age") {
-            return;
-          }
-          if (cell.resources[need[0]] !== need[1]) {
-            cell.status.description = "Wilted";
+        Object.entries(cell.resources).forEach((resource, i) => {
+          if(resource[0] === "water") {
+            if (resource[1] !== cell.needs.water) {
+              cell.status.description = "Wilted";
+              cell.status.hasWilted = true;
+            }
+            cell.resources.water = 0;
           }
         });
       });
