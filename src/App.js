@@ -7,7 +7,7 @@ class Plant extends React.Component {
     return (
       <td className="game-plant">
         <p>{this.props.name}</p>
-        <p>Needs: {this.props.status.waterToday} / {this.props.dailyNeeds.water} 🚰</p>
+        <p>Needs: {this.props.resources.water} / {this.props.needs.water} 🚰</p>
         <p>Status: {this.props.status.description}</p>
         <button className="game-btn-waterPlant" onClick={this.props.onClick}>Water 🚰</button>
       </td>
@@ -23,13 +23,16 @@ class App extends React.Component {
         name: "Amaranth",
         status: {
           description: "Healthy",
-          age: 0,
-          waterToday: 0,
         },
-        dailyNeeds: {
+        // Age required is overall; all others are per day
+        needs: {
+          age: 2,
           water: 1,
         },
-        daysToGrow: 2,
+        resources: {
+          age: 0,
+          water: 0,
+        },
       }))),
       worldTick: 0,
       player: {
@@ -39,10 +42,10 @@ class App extends React.Component {
   }
 
   waterPlant = (row, col, plant) => {
-    const previousWater = plant.status.waterToday;
+    const previousWater = plant.resources.water;
     const newGrid = [...this.state.worldGrid];
     newGrid[row][col] = {...plant};
-    newGrid[row][col].status.waterToday = previousWater + 1;
+    newGrid[row][col].resources.water = previousWater + 1;
 
     this.setState({
       worldGrid: newGrid
@@ -55,8 +58,11 @@ class App extends React.Component {
 
     newGrid.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
-        Object.entries(cell.dailyNeeds).forEach((need) => {
-          if (cell.status.waterToday !== need[1]) {
+        Object.entries(cell.needs).forEach((need) => {
+          if (need[0] === "age") {
+            return;
+          }
+          if (cell.resources[need[0]] !== need[1]) {
             cell.status.description = "Wilted";
           }
         });
