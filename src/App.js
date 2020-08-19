@@ -49,6 +49,27 @@ class App extends React.Component {
     });
   }
 
+  advanceDay = () => {
+    const previousDay = this.state.worldTick;
+    const newGrid = [...this.state.worldGrid];
+
+    newGrid.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        Object.entries(cell.dailyNeeds).forEach((need) => {
+          if (cell.status.waterToday !== need[1]) {
+            cell.status.description = "Wilted";
+          }
+        });
+      });
+    });
+
+
+    this.setState({
+      worldGrid: newGrid,
+      worldTick: previousDay + 1,
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -80,7 +101,11 @@ class App extends React.Component {
           <br/>
           <div className="game-footer">
             <p>Day: {this.state.worldTick + 1}</p>
-            <button className="game-btn-nextDay" onClick={() => this.setState({worldTick: this.state.worldTick + 1})}>Next Day</button>
+            <button
+              className="game-btn-nextDay"
+              onClick={this.advanceDay}>
+                Next Day
+            </button>
           </div>
         </div>
       </div>
