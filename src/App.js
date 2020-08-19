@@ -2,28 +2,13 @@ import React from 'react';
 import './App.css';
 
 class Plant extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: "Amaranth",
-      status: {
-        description: "Healthy",
-        age: 0,
-        waterToday: 1,
-      },
-      dailyNeeds: {
-        water: 1,
-      },
-      daysToGrow: 2,
-    }
-  }
-
   render() {
     return (
       <td className="game-plant">
-        <p>{this.state.name}</p>
-        <p>Status: {this.state.status.description}</p>
-        <button className="game-btn-waterPlant">Water 🚰</button>
+        <p>{this.props.name}</p>
+        <p>Needs: {this.props.status.waterToday} / {this.props.dailyNeeds.water} 🚰</p>
+        <p>Status: {this.props.status.description}</p>
+        <button className="game-btn-waterPlant" onClick={this.props.onClick}>Water 🚰</button>
       </td>
     );
   }
@@ -33,7 +18,18 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      worldGrid: Array(2).fill(0).map(row => new Array(3).fill(null)),
+      worldGrid: Array(2).fill(0).map(row => new Array(3).fill({
+        name: "Amaranth",
+        status: {
+          description: "Healthy",
+          age: 0,
+          waterToday: 0,
+        },
+        dailyNeeds: {
+          water: 1,
+        },
+        daysToGrow: 2,
+      })),
       worldTick: 0,
       player: {
         money: 100,
@@ -41,7 +37,17 @@ class App extends React.Component {
     }
   }
 
-  // <td key={cell}> cell! </td>
+  waterPlant = (row, col, plant) => {
+    const previousWater = plant.status.waterToday;
+    const newGrid = [...this.state.worldGrid];
+    newGrid[row][col] = {...plant};
+    newGrid[row][col].status.waterToday = previousWater + 1;
+
+    this.setState({
+      worldGrid: newGrid
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -60,15 +66,15 @@ class App extends React.Component {
           <br/>
           <div className="game-world-grid">
             <table>
-              {this.state.worldGrid.map(row => <tr key={row}> {
-                row.map(cell => <Plant/>)
+              {this.state.worldGrid.map((row, rowIndex) => <tr key={row}> {
+                row.map((cell, colIndex) => <Plant {...cell} onClick={() => this.waterPlant(rowIndex, colIndex, cell)}/>)
               } </tr>)}
             </table>
           </div>
           <br/>
           <div className="game-footer">
             <p>Day: {this.state.worldTick + 1}</p>
-            <button className="game-btn-nextDay">Next Day</button>
+            <button className="game-btn-nextDay" onClick={() => this.setState({worldTick: this.state.worldTick + 1})}>Next Day</button>
           </div>
         </div>
       </div>
