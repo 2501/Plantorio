@@ -9,7 +9,13 @@ class Plant extends React.Component {
         <p>{this.props.name}</p>
         <p>Needs: {this.props.resources.water} / {this.props.needs.water} 🚰</p>
         <p>Status: {this.props.description}</p>
-        <button className="game-btn-waterPlant" onClick={this.props.onClick}>Water 🚰</button>
+        <button className="game-btn-waterPlant" onClick={this.props.waterPlant}>Water 🚰</button>
+        <button
+          className="game-btn-harvestPlant"
+          disabled={!this.props.status.hasGrown}
+          onClick={this.props.harvestPlant}>
+            Harvest ☭
+        </button>
       </td>
     );
   }
@@ -24,10 +30,10 @@ class App extends React.Component {
         description: "Healthy",
         status: {
           age: 0,
-          condition: "",
           hasGrown: false,
           hasWilted: false,
           hasRot: false,
+          harvested: false,
         },
         daysToGrow: 1,
         // Needs are per day
@@ -53,6 +59,22 @@ class App extends React.Component {
 
     this.setState({
       worldGrid: newGrid
+    });
+  }
+
+  harvestPlant = (row, col, plant) => {
+    const newMoney = this.state.player.money + 50;
+    const newGrid = [...this.state.worldGrid];
+    newGrid[row][col] = {...plant};
+
+    // TODO grid manip
+    newGrid[row][col].name = "Empty Planter";
+    newGrid[row][col].description = "Harvested";
+    newGrid[row][col].status.harvested = true;
+
+    this.setState({
+      worldGrid: newGrid,
+      player: {...this.state.player, money: newMoney},
     });
   }
 
@@ -119,7 +141,8 @@ class App extends React.Component {
             <table>
               {this.state.worldGrid.map((row, rowIndex) => <tr key={rowIndex}> {
                 row.map((cell, colIndex) => <Plant {...cell}
-                  onClick={() => this.waterPlant(rowIndex, colIndex, cell)}
+                  waterPlant={() => this.waterPlant(rowIndex, colIndex, cell)}
+                  harvestPlant={() => this.harvestPlant(rowIndex, colIndex, cell)}
                   key={colIndex}
                   rowIndex={rowIndex}
                   colIndex={colIndex}
