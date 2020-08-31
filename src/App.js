@@ -1,8 +1,21 @@
 import React from 'react';
 import './App.css';
 
+class ShopItem extends React.Component {
+  // Todo: As with everything else, upgrade to a general solution!
+  render() {
+    return (
+      <td className="shop-item">
+
+        <p>Amaranth Seed</p>
+        <p>Cost: ${this.props.cost}</p>
+        <button className="game-btn-buySeed" onClick={this.props.buySeed}>Purchase</button>
+      </td>
+    );
+  }
+}
+
 class Plant extends React.Component {
-  // <p>DEBUG: {this.props.rowIndex},{this.props.colIndex}</p>
   render() {
     return (
       <td className="game-plant">
@@ -46,7 +59,8 @@ class App extends React.Component {
       }))),
       worldTick: 0,
       player: {
-        money: 100,
+        money: 1000,
+        seeds: 0,
       },
     }
   }
@@ -114,11 +128,18 @@ class App extends React.Component {
       });
     });
 
-
     this.setState({
       worldGrid: newGrid,
       worldTick: previousDay + 1,
     })
+  }
+
+  purchaseItem = () => {
+    const newMoney = this.state.player.money - 25;
+    const newSeed = this.state.player.seeds + 1;
+    this.setState({
+      player: {...this.state.player, money: newMoney, seeds: newSeed},
+    });
   }
 
   render() {
@@ -129,12 +150,18 @@ class App extends React.Component {
         </header>
         <div className="game">
           <div className="game-notifications">
+            <p>Seeds: {this.state.player.seeds}</p>
             TODO (Warnings about wilting/rotting plants and the like)
           </div>
           <br/>
           <div className="game-shop">
             <p>Funds: $ {this.state.player.money}</p>
-            TODO (Where you'll buy new seeds, machines, and greenhouse expansions)
+            <table className="game-shop-goods">
+              <tr>
+                Seeds:
+                <ShopItem key="BuyAmaranthSeed" cost={25} buySeed={this.purchaseItem}/>
+              </tr>
+            </table>
           </div>
           <br/>
           <div className="game-world-grid">

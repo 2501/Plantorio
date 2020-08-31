@@ -29,3 +29,13 @@ Seeking a better future, you bought a greenhousing asteroid near the orbit of Ju
   - Not realistic, but abstractions given names. Progress "down" the alphabet for simplicity. Thus, Amaranth is simplest to grow (needing only water and growing quickly, but making little money) and Quinoa is fickle, but can be accelerated with sun lamps and makes a fortune.
 - Money & Upgrades:
   - As you earn money, you can buy new seed lots to unlock new plants. You can also purchase the licenses for, and then copies of various helpful machines.
+
+# Todo List
+- Utilize Redux or similar for better State management?
+- Better Plant interaction
+  - Start with seeds, rather than all tiles already planted
+  - Allow removal of rotten plants
+  - Let Harvest return tile to "empty", allow new planting
+- Add in-game notifications and warnings to guide the player
+- Add machine / automation interaction
+  - Begin this with basic sprinkler, which waters the tile to the right of it
