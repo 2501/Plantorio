@@ -1,6 +1,18 @@
 import React from 'react';
 import './App.css';
 
+class EmptyTile extends React.Component {
+  render() {
+    return (
+      <td className="game-empty-tile">
+        <button className="game-btn-plantSeed" onClick={this.props.plantSeed}>
+          Plant Seed
+        </button>
+      </td>
+    )
+  }
+}
+
 class ShopItem extends React.Component {
   // Todo: As with everything else, upgrade to a general solution!
   render() {
