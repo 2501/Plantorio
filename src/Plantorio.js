@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './Plantorio.css';
 
 class EmptyTile extends React.Component {
   render() {
@@ -46,7 +46,7 @@ class Plant extends React.Component {
   }
 }
 
-class App extends React.Component {
+class Plantorio extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -156,8 +156,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="Plantorio">
+        <header className="Plantorio-header">
           <p>Plantorio</p>
         </header>
         <div className="game">
@@ -204,4 +204,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Plantorio;

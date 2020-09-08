@@ -1,19 +1,19 @@
-.App {
+.Plantorio {
   text-align: center;
 }
 
-.App-logo {
+.Plantorio-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  .Plantorio-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
+.Plantorio-header {
   background-color: #282c34;
   min-height: 5vh;
   display: flex;
@@ -22,7 +22,7 @@
   color: white;
 }
 
-.App-link {
+.Plantorio-link {
   color: #61dafb;
 }
 
