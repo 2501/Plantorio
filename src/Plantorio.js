@@ -1,6 +1,10 @@
 import React from 'react';
 import './Plantorio.css';
 
+import DayTracker from './components/DayTracker';
+import Notifications from './components/Notifications';
+import Inventory from './components/Inventory';
+
 class EmptyTile extends React.Component {
   render() {
     return (
@@ -10,20 +14,6 @@ class EmptyTile extends React.Component {
         </button>
       </td>
     )
-  }
-}
-
-class ShopItem extends React.Component {
-  // Todo: As with everything else, upgrade to a general solution!
-  render() {
-    return (
-      <td className="shop-item">
-
-        <p>Amaranth Seed</p>
-        <p>Cost: ${this.props.cost}</p>
-        <button className="game-btn-buySeed" onClick={this.props.buySeed}>Purchase</button>
-      </td>
-    );
   }
 }
 
@@ -72,7 +62,15 @@ class Plantorio extends React.Component {
       worldTick: 0,
       player: {
         money: 1000,
-        seeds: 0,
+        inventory: {
+          SEEDS: {
+            AMARANTH: 0,
+            BEET: 0
+          },
+          MACHINES: {
+            SPRINKLER_MK_1: 0
+          }
+        }
       },
     }
   }
@@ -161,20 +159,10 @@ class Plantorio extends React.Component {
           <p>Plantorio</p>
         </header>
         <div className="game">
-          <div className="game-notifications">
-            <p>Seeds: {this.state.player.seeds}</p>
-            TODO (Warnings about wilting/rotting plants and the like)
-          </div>
-          <br/>
-          <div className="game-shop">
-            <p>Funds: $ {this.state.player.money}</p>
-            <table className="game-shop-goods">
-              <tr>
-                Seeds:
-                <ShopItem key="BuyAmaranthSeed" cost={25} buySeed={this.purchaseItem}/>
-              </tr>
-            </table>
-          </div>
+          <Notifications />
+          <Inventory
+            player={this.state.player}
+          />
           <br/>
           <div className="game-world-grid">
             <table>
@@ -190,14 +178,7 @@ class Plantorio extends React.Component {
             </table>
           </div>
           <br/>
-          <div className="game-footer">
-            <p>Day: {this.state.worldTick + 1}</p>
-            <button
-              className="game-btn-nextDay"
-              onClick={this.advanceDay}>
-                Next Day
-            </button>
-          </div>
+          <DayTracker day={this.state.worldTick} advanceDay={this.advanceDay}/>
         </div>
       </div>
     )
